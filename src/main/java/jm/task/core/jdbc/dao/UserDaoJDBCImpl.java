@@ -6,10 +6,12 @@ import jm.task.core.jdbc.util.Util;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserDaoJDBCImpl implements UserDao {
-
-    Connection connection = Util.getConnection();
+    private final Connection connection = Util.getConnection();
+    private final Logger logger = Logger.getLogger(UserDaoJDBCImpl.class.getName());
 
     public void createUsersTable() {
         try (PreparedStatement preparedStatement =
@@ -35,7 +37,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setString(2, lastName);
             preparedStatement.setByte(3, age);
             preparedStatement.executeUpdate();
-            System.out.println("User с именем – " + name + " добавлен в базу данных");
+            logger.log(Level.INFO, "User с именем – {0} добавлен в базу данных", name);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -52,9 +54,9 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public List<User> getAllUsers() {
+        List<User> userList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Users")) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            List<User> userList = new ArrayList<>();
             while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getLong(1));
@@ -63,12 +65,11 @@ public class UserDaoJDBCImpl implements UserDao {
                 user.setAge(resultSet.getByte(4));
                 userList.add(user);
             }
-            System.out.println(userList);
             return userList;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return userList;
     }
 
     public void cleanUsersTable() {
