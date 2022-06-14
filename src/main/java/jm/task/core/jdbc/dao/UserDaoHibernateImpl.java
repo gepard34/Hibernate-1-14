@@ -28,7 +28,7 @@ public class UserDaoHibernateImpl implements UserDao {
             session = factory.getCurrentSession();
             transaction = session.beginTransaction();
             session.createSQLQuery(sql).executeUpdate();
-            session.getTransaction().commit();
+            transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
             throw new RuntimeException();
@@ -45,7 +45,7 @@ public class UserDaoHibernateImpl implements UserDao {
             session = factory.getCurrentSession();
             transaction = session.beginTransaction();
             session.createSQLQuery(sql).executeUpdate();
-            session.getTransaction().commit();
+            transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
             throw new RuntimeException();
@@ -61,7 +61,7 @@ public class UserDaoHibernateImpl implements UserDao {
             session = factory.getCurrentSession();
             transaction = session.beginTransaction();
             session.save(new User(name, lastName, age));
-            session.getTransaction().commit();
+            transaction.commit();
             logger.log(Level.INFO, "User с именем – {0} добавлен в базу данных", name);
         } catch (HibernateException e) {
             transaction.rollback();
@@ -79,7 +79,7 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction = session.beginTransaction();
             User user = session.get(User.class, id);
             session.delete(user);
-            session.getTransaction().commit();
+            transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
             throw new RuntimeException();
@@ -96,7 +96,7 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction = session.beginTransaction();
             users = session.createQuery("FROM User")
                     .getResultList();
-            session.getTransaction().commit();
+            transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
             throw new RuntimeException();
@@ -113,7 +113,7 @@ public class UserDaoHibernateImpl implements UserDao {
             session = factory.getCurrentSession();
             transaction = session.beginTransaction();
             session.createSQLQuery(sql).executeUpdate();
-            session.getTransaction().commit();
+            transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
             throw new RuntimeException();
