@@ -13,7 +13,7 @@ public class Util {
 
     private Util() {
     }
-    static Util util = new Util();
+    private static Util util = new Util();
     public static Util getInstance(){
         return util;
     }
