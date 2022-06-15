@@ -10,7 +10,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Util {
-    public static Connection getConnection() {
+
+    private Util() {
+    }
+    static Util util = new Util();
+    public static Util getInstance(){
+        return util;
+    }
+    public Connection getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -26,7 +33,7 @@ public class Util {
         return connection;
     }
 
-    public static SessionFactory getSessionFactory() {
+    public  SessionFactory getSessionFactory() {
         Configuration configuration = new Configuration().addAnnotatedClass(User.class);
         SessionFactory sessionFactory = configuration.buildSessionFactory();
         return sessionFactory;
