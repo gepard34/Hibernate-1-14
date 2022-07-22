@@ -13,7 +13,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class UserDaoJDBCImpl implements UserDao {
-    private final Connection connection = Util.getInstance().getConnection();
+    private final Connection connection;
+
+    {
+        try {
+            connection = Util.getInstance().getConnection();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private final Logger logger = Logger.getLogger(UserDaoJDBCImpl.class.getName());
 
     public void createUsersTable() {

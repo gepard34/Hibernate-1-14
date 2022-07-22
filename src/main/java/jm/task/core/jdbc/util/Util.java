@@ -17,26 +17,28 @@ public class Util {
     public static Util getInstance(){
         return util;
     }
-    public Connection getConnection() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        private static final String url = "jdbc:mysql://localhost:3306/test";
+        private static final String username = "root";
+        private static final String password = "root";
+
+
+        public static Connection getConnection() throws ClassNotFoundException, SQLException {
+            Connection connection = null;
+            try  {
+                Class.forName("com.mysql.jdbc.Driver");
+                connection = DriverManager.getConnection(url, username, password);
+                connection.setAutoCommit(false);
+                System.out.println("Sucessfully connected");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return connection;
         }
-        Connection connection = null;
-        try {
-            connection = DriverManager
-                    .getConnection("jdbc:mysql://localhost:3306/test", "root", "Staford88");
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+        public static SessionFactory getSessionFactory() {
+            Configuration configuration = new Configuration().addAnnotatedClass(User.class);
+            SessionFactory sessionFactory = configuration.buildSessionFactory();
+            return sessionFactory;
         }
-        return connection;
     }
 
-    public  SessionFactory getSessionFactory() {
-        Configuration configuration = new Configuration().addAnnotatedClass(User.class);
-        SessionFactory sessionFactory = configuration.buildSessionFactory();
-        return sessionFactory;
-    }
-
-}
