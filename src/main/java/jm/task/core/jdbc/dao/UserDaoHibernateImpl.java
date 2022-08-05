@@ -46,7 +46,6 @@ public class UserDaoHibernateImpl implements UserDao {
             tx.commit();
         }
         catch (HibernateException e) {
-            tx.rollback();
             e.printStackTrace();
         }
     }
@@ -98,8 +97,6 @@ public class UserDaoHibernateImpl implements UserDao {
             System.out.println(users);
             tx.commit();
         } catch (HibernateException e) {
-            assert tx != null;
-            tx.rollback();
             e.printStackTrace();
         }
         return users;
@@ -117,7 +114,6 @@ public class UserDaoHibernateImpl implements UserDao {
             tx.commit();
         }
         catch (HibernateException e) {
-            tx.rollback();
             e.printStackTrace();
         }
     }
